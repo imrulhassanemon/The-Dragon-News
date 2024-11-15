@@ -1,3 +1,4 @@
+import { key } from "localforage";
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 
@@ -17,7 +18,7 @@ const LeftNavbar = () => {
             <h2 className="font-semibold mb-3">All Category ({categories.length})</h2>
             <div className="flex flex-col gap-2">
             {
-                categories.map(category => <NavLink to={`/category/${category.category_id}`} className="btn">{category.category_name}</NavLink>)
+                categories.map(category =>  <NavLink key={category.category_id} to={`/category/${category.category_id}`} className="btn">{category.category_name}</NavLink>)
             }
             </div>
         </div>
