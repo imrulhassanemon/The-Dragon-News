@@ -1,11 +1,16 @@
+import { useContext } from "react";
 import { FaCircleUser } from "react-icons/fa6";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import { AuthContex } from "../Provider/AuthProvider";
 
 
 const Navbar = () => {
+    const {user} = useContext(AuthContex)
     return (
         <div className="flex justify-between items-center">
-            <div></div>
+            <div>
+                {user && user.name}
+            </div>
             <div className="space-x-5">
                 <NavLink to={'/'}> Home</NavLink>
                 <NavLink to={'/about'} >About</NavLink>
@@ -13,7 +18,7 @@ const Navbar = () => {
             </div>
             <div className="flex items-center gap-3">
                 <FaCircleUser className="text-[35px] " />
-                <button className="btn rounded-none btn-neutral">Login</button>
+                <Link to={'/auth/login'} className="btn rounded-none btn-neutral">Login</Link >
             </div>
         </div>
     );
