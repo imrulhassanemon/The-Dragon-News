@@ -4,6 +4,7 @@ import CategoryNews from "../Pages/CategoryNews";
 import AuthLayOut from "../layout/AuthLayOut";
 import Login from "../Pages/Login";
 import Register from "../Pages/Register";
+import NewsDetails from "../Pages/NewsDetails";
 
 
 
@@ -18,16 +19,17 @@ const router = createBrowserRouter([
             },
             {
                 path: '/category/:id',
-                element: <CategoryNews> </CategoryNews>,
+                element: <CategoryNews></CategoryNews>,
                 loader:({params})=> 
                     fetch(`https://openapi.programming-hero.com/api/news/category/${params.id}`)
-                
             },
         ]
     },
     {
-        path:'news',
-        element: <h1>News Layout</h1>
+        path:'news/:id',
+        element: <NewsDetails></NewsDetails>,
+        loader: ({params})=> fetch(`https://openapi.programming-hero.com/api/news/${params.id}`)
+        // 
     },
     {
         path:'auth',

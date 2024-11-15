@@ -5,11 +5,11 @@ import { AuthContex } from "../Provider/AuthProvider";
 
 
 const Navbar = () => {
-    const {user} = useContext(AuthContex)
+    const {user, logOut} = useContext(AuthContex)
     return (
         <div className="flex justify-between items-center">
             <div>
-                {user && user.name}
+                {user && user.email}
             </div>
             <div className="space-x-5">
                 <NavLink to={'/'}> Home</NavLink>
@@ -18,7 +18,9 @@ const Navbar = () => {
             </div>
             <div className="flex items-center gap-3">
                 <FaCircleUser className="text-[35px] " />
-                <Link to={'/auth/login'} className="btn rounded-none btn-neutral">Login</Link >
+                {
+                    user && user? <Link onClick={()=>logOut()} to={'/auth/login'} className="btn rounded-none btn-neutral">Loggout</Link >:<Link to={'/auth/login'} className="btn rounded-none btn-neutral">Login</Link >
+                }
             </div>
         </div>
     );

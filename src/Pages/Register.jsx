@@ -1,11 +1,31 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContex } from '../Provider/AuthProvider';
 
 const Register = () => {
 
+    const {createNewUser, setUser} =  useContext(AuthContex)
+    
+
     const handelSubmit = (e) => {
         e.preventDefault()
-        get 
+        const form = new FormData(e.target)
+        const name = form.get('name');
+        const email = form.get('email');
+        const password = form.get('password');
+        const photo = form.get('photo');
+        console.log(name, email, photo, password);
+
+        createNewUser(email, password)
+        .then(result => {
+            const user = result.user;
+            console.log(user)
+            setUser(user)
+        })
+        .catch(error => {
+            console.log("Error", error);
+        })
+
     }
 
     return (
