@@ -21,7 +21,7 @@ const Register = () => {
         const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
 
         if( !regex.test(password)){
-          setError('Your password must contain at least one lowercase, one upper case, and one number')
+          return setError('Your password must contain at least one lowercase, one upper case, and one number')
         }
 
         const photo = form.get('photo');
