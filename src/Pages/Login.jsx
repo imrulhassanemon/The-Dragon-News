@@ -8,7 +8,7 @@ const Login = () => {
     const [error, setError] = useState({})
 
     const location = useLocation()
-    console.log(location);
+    
     const navigate = useNavigate()
     
     const loginSubmit = (e) =>{
@@ -16,16 +16,17 @@ const Login = () => {
         const form = new FormData(e.target)
         const email = form.get('email')
         const password = form.get('password')
-        console.log(email, password);
+        setError('')
+        
         userLogin(email, password)
         .then((result)=> {
-            console.log(result.user)
+            
             const user = result.user
             setUser(user)
             navigate(location?.state? location.state:'/')
         })
         .catch((err)=> {
-            // console.log("Boss I am from Error", error)
+            
             setError({...error, login:err.code })
         })
         
@@ -62,7 +63,9 @@ const Login = () => {
             <div>
                 {
                     error.login && (
-                        <label>{error.login}</label>
+                        <label className="text-red-600 text-sm">{
+                          error.login.slice(5, 23)
+                        }</label>
                     )
                 }
             </div>

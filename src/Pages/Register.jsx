@@ -1,29 +1,47 @@
-import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContex } from '../Provider/AuthProvider';
 
 const Register = () => {
 
-    const {createNewUser, setUser} =  useContext(AuthContex)
-    
-
+    const {createNewUser, setUser, updateUserProfail} =  useContext(AuthContex)
+    const [error, setError] = useState('')
+    const navigate = useNavigate()
     const handelSubmit = (e) => {
         e.preventDefault()
         const form = new FormData(e.target)
         const name = form.get('name');
+
+        if(name.length < 5){
+          return setError('Name length should be at least 5 character')
+        }
+
         const email = form.get('email');
         const password = form.get('password');
+        const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
+
+        if( !regex.test(password)){
+          setError('Your password must contain at least one lowercase, one upper case, and one number')
+        }
+
         const photo = form.get('photo');
-        console.log(name, email, photo, password);
+        
 
         createNewUser(email, password)
         .then(result => {
             const user = result.user;
-            console.log(user)
+            // console.log(user)
             setUser(user)
+            updateUserProfail({displayName:name, photoURL:photo})
+            .then(()=>{
+              navigate('/')
+            })
+            .catch(error => {
+              // console.log(error);
+            })
         })
-        .catch(error => {
-            console.log("Error", error);
+        .catch(err => {
+            console.log("Error", err);
         })
 
     }
@@ -43,8 +61,9 @@ const Register = () => {
               placeholder="Enter your name"
               className="input input-bordered  bg-gray-100"
               required
-            />
+              />
           </div>
+              {/* <span className='text-red-600'>{error}</span> */}
           <div className="form-control">
             <label className="label">
               <span className="label-text">Photo URL</span>
@@ -79,10 +98,11 @@ const Register = () => {
               name='password'
               className="input input-bordered  bg-gray-100"
               required
+              
             />
-            
+            <span className='text-red-600 mt-3'>{error }</span>
           </div>
-          <div className="form-control mt-6">
+          <div className="form-control mt-3">
             <button className="btn btn-neutral rounded-none">Register</button>
           </div>
         </form>

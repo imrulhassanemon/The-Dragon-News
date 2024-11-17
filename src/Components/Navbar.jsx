@@ -17,7 +17,11 @@ const Navbar = () => {
                 <NavLink to={'career'}>Career</NavLink>
             </div>
             <div className="flex items-center gap-3">
-                <FaCircleUser className="text-[35px] " />
+                {
+                    user && user.email? <div>
+                        <img className="w-11 h-11 rounded-full object-cover" src={user.photoURL} alt="" />
+                    </div> : <FaCircleUser className="text-[35px] " />
+                }
                 {
                     user && user? <Link onClick={()=>logOut()} to={'/auth/login'} className="btn rounded-none btn-neutral">Loggout</Link >:<Link to={'/auth/login'} className="btn rounded-none btn-neutral">Login</Link >
                 }
