@@ -1,12 +1,15 @@
-import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContex } from "../Provider/AuthProvider";
 
 const Login = () => {
 
-    const {user, userLogin, setUser} = useContext(AuthContex)
-    console.log(user);
+    const { userLogin, setUser} = useContext(AuthContex);
+    const [error, setError] = useState({})
 
+    const location = useLocation()
+    console.log(location);
+    const navigate = useNavigate()
     
     const loginSubmit = (e) =>{
         e.preventDefault()
@@ -15,6 +18,16 @@ const Login = () => {
         const password = form.get('password')
         console.log(email, password);
         userLogin(email, password)
+        .then((result)=> {
+            console.log(result.user)
+            const user = result.user
+            setUser(user)
+            navigate(location?.state? location.state:'/')
+        })
+        .catch((err)=> {
+            // console.log("Boss I am from Error", error)
+            setError({...error, login:err.code })
+        })
         
     }
 
@@ -46,9 +59,18 @@ const Login = () => {
               className="input input-bordered  bg-gray-100"
               required
             />
-            
+            <div>
+                {
+                    error.login && (
+                        <label>{error.login}</label>
+                    )
+                }
+            </div>
           </div>
-          <div className="form-control mt-6">
+            <div className="mt-3">
+            forbget
+            </div>
+          <div className="form-control ">
             <button onClick={userLogin} className="btn btn-neutral rounded-none">Login</button>
           </div>
         </form>

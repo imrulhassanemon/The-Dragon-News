@@ -8,22 +8,21 @@ const auth = getAuth(app)
 
 const AuthProvider = ({children}) => {
     const [user, setUser] = useState(null)
-    console.log(user);
+    const [loading, setLoding]  = useState(true);
+    // console.log(user);
 
     const createNewUser = (email, password) => {
+        setLoding(true)
         return  createUserWithEmailAndPassword(auth, email, password)
+
         
     }
 
     const userLogin = (email, password)=>{
+        setLoding(true)
         return(
             signInWithEmailAndPassword(auth, email, password)
-            .then((result)=> {
-                console.log(result.user)
-            })
-            .catch((error)=> {
-                console.log("Boss I am from Error", error)
-            })
+            
         )
     }
 
@@ -31,6 +30,7 @@ const AuthProvider = ({children}) => {
     const logOut = () => {
         signOut(auth)
         .then(()=> {
+            
             console.log('successfully LogOut');
         })
         .catch((error)=> {
@@ -44,16 +44,19 @@ const AuthProvider = ({children}) => {
         setUser,
         createNewUser,
         logOut,
-        userLogin
+        userLogin,
+        loading: loading
      }
 
      useEffect(()=> {
         const unsubscribe = onAuthStateChanged(auth, currentUser => {
             setUser(currentUser)
+            setLoding(false)
         })
         return ()=>{
             unsubscribe();
         }
+        // setLoding()
      },[])
 
   return <AuthContex.Provider value={authInfo}>{children}</AuthContex.Provider>;

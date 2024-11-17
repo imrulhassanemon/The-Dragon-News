@@ -49,10 +49,10 @@ const NewsDetails = () => {
             <div className="card-body w-full">
               <h2 className="card-title ">{news?.title}</h2>
               <p>{news?.details}</p>
-              <div className="card-actions justify-end">
-                <Link to={`/category/${news?.category_id}`} className="btn btn-primary">Listen</Link>
+          <div className="badge badge-secondary">{news?.rating.badge}</div>    
+              <div className="card-actions justify-start">
+                <Link to={`/category/${news?.category_id}`} className="btn btn-primary">Back to Category</Link>
               </div>
-          <div class="badge badge-secondary">{news?.rating.badge}</div>    
             </div>
           </div>
         </section>
